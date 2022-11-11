@@ -1,0 +1,20 @@
+.StartScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.StartScreen h1 {
+    margin-bottom: 0.1rem;
+    font-weight: 700;
+    font-size: 31.25px;
+    line-height: 37px;
+    color: #293264;
+}
+
+.StartScreen p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #293264;
+}

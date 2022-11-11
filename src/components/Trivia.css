@@ -1,0 +1,44 @@
+.Trivia-container {
+    z-index:2;
+    padding:4rem;
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+}
+
+h3 {
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 19px;    
+    color: #293264;   
+}
+
+.trivia-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.3rem;
+}
+
+.trivia-buttons button {
+    width: auto;
+    height: 2rem;
+    border: 0.794239px solid #4D5B9E;
+    border-radius: 7px;
+    color: #293264;
+    background-color: white;
+
+    font-weight: 500;
+    font-size: .9rem;
+    line-height: 12px;    
+    text-align: center;   
+}
+
+.trivia-buttons button:hover {
+    background: #D6DBF5;
+}
+
+hr {
+    opacity: .5;
+}
