@@ -12,13 +12,12 @@ export default function Trivia(props) {
                     {
                         item.choices.map( (choice) => {
                             return (
-                                <label key={choice}>
+                                <label key={choice} className="btn-label" >
                                     <span dangerouslySetInnerHTML={{__html: choice}}></span>
                                         <input
                                             type="radio"
                                             value={choice}
                                             name={item.id}
-                                            // checked={formData[0].value === choice}
                                         />
                                 </label>
                             )
