@@ -14,7 +14,7 @@ function App() {
   const [questions, setQuestions] = useState([]) 
   const [formData, setFormData] = useState([])
   const [isChecked, setIsChecked] = useState(false)
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(null);
 
   function startGame() {
     setStart(true)
@@ -58,11 +58,13 @@ function App() {
 
   function updateState(event) {
     const id = event.target.name;
-    const value = event.target.value;
+    const chosenAnswer = event.target.value;
+    
     setFormData( prevState => (
-      prevState.map( item => item.id === id ? 
-        { ...item, chosenAnswer: value } : 
-        item 
+      prevState.map( trivia => ( 
+        trivia.id === id ? 
+          { ...trivia, chosenAnswer } : 
+          trivia )
       ) 
     ))
   }
@@ -70,14 +72,10 @@ function App() {
   function handleSubmit(event) { //handle errors (when user skipped questions)
     event.preventDefault();
 
-    let tempScore = 0;
-    formData.map( (item) => { //this method could be more efficient (every etc)
-      if(item.chosenAnswer === item.correctAnswer) {
-        tempScore ++;
-      }
-      return tempScore;
-    })
-    setScore(tempScore);
+    const scoreArray = formData
+      .filter( trivia => trivia.chosenAnswer === trivia.correctAnswer)
+
+    setScore(scoreArray.length);
     setIsChecked(true);
   }
 
@@ -86,10 +84,10 @@ function App() {
     setIsChecked(false)
     setStart(false)
     setFormData([])
-    setScore(0)
+    setScore(null)
   }
 
-  console.log(formData)
+  console.log(score)
 
   return (
     <div className="App">
