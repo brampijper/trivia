@@ -1,35 +1,19 @@
 import React from 'react';
 import './Trivia.css';
+import TriviaButtons from './TriviaButtons';
 
 export default function Trivia(props) {
 
-    const questions = props.formData.map( (item) => {
+    const questions = props.formData.map( (trivia) => {
         return (
-            <div className="wrap" key={item.id}>
-                <h3 dangerouslySetInnerHTML={{__html: item.question}}></h3>
-                <div className="trivia-buttons" 
-                    onChange={props.updateState}>
-                    {
-                        item.choices.map( (choice) => {
-                            return (
-                                <label key={choice} className="btn-label" >
-                                    <span dangerouslySetInnerHTML={{__html: choice}}></span>
-                                        <input
-                                            type="radio"
-                                            value={choice}
-                                            name={item.id}
-                                        />
-                                </label>
-                            )
-                        })
-                    }
-                </div>
-                { 
-                    item.correct !== null && 
-                        <span style={{ color: item.correct ? "lightgreen" : "lightcoral"}}>
-                            {item.correct ? "yay! +1" : "wrong answer"}
-                    </span> 
-                }
+            <div className="wrap" key={trivia.id}>
+                <h3 dangerouslySetInnerHTML={{__html: trivia.question}}></h3>
+                <TriviaButtons 
+                    key={trivia.id}
+                    updateState={props.updateState}
+                    trivia={trivia}
+                    isChecked={props.isChecked}
+                />
                 <hr />
             </div>
         )
@@ -38,7 +22,6 @@ export default function Trivia(props) {
     return ( 
         <div className="Trivia-container">
             {questions}
-            <button>Check Answers</button>
         </div>
     )
 }
