@@ -12,6 +12,13 @@
   overflow:hidden;
 }
 
+.score-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
 
 .svg-blue {
   position:absolute;
