@@ -37,79 +37,78 @@ function App() {
   }
 
   useEffect( () => {
-    const questionId = questions.map( (questionData) => {
+    const setFormState = questions.map( (questionData) => {
       const {question, incorrect_answers, correct_answer, id} = questionData;
       const randomizeChoices = randomizeArray([...incorrect_answers, correct_answer])
       return { 
-        id: id,
+        id,
         question,
         chosenAnswer: '',
         choices: randomizeChoices,
         correctAnswer: correct_answer,
       }
     })
-    setFormData(questionId)
+    setFormData(setFormState)
   }, [questions] )
 
-
-function updateState(event) {
-  const id = event.target.name;
-  const value = event.target.value;
-  setFormData( prevState => (
-    prevState.map( item => item.id === id ? 
-      { ...item, chosenAnswer: value } : 
-      item 
-    ) 
-  ))
-}
-
-function randomizeArray(arr) {
+  function randomizeArray(arr) {
     arr.sort(() => Math.random() - 0.5);
     return arr;
-}
+  }
 
-function handleSubmit(event) { //handle errors (when user skipped questions)
-  event.preventDefault();
+  function updateState(event) {
+    const id = event.target.name;
+    const value = event.target.value;
+    setFormData( prevState => (
+      prevState.map( item => item.id === id ? 
+        { ...item, chosenAnswer: value } : 
+        item 
+      ) 
+    ))
+  }
 
-  let tempScore = 0;
-  formData.map( (item) => { //this method could be more efficient (every etc)
-    if(item.chosenAnswer === item.correctAnswer) {
-      tempScore ++;
-    }
-    return tempScore;
-  })
-  setScore(tempScore);
-  setIsChecked(true);
-}
+  function handleSubmit(event) { //handle errors (when user skipped questions)
+    event.preventDefault();
 
-function restartGame() {
-  setLoading(true)
-  setIsChecked(false)
-  setStart(false)
-  setFormData([])
-  setScore(0)
-}
+    let tempScore = 0;
+    formData.map( (item) => { //this method could be more efficient (every etc)
+      if(item.chosenAnswer === item.correctAnswer) {
+        tempScore ++;
+      }
+      return tempScore;
+    })
+    setScore(tempScore);
+    setIsChecked(true);
+  }
 
-console.log(formData)
+  function restartGame() {
+    setLoading(true)
+    setIsChecked(false)
+    setStart(false)
+    setFormData([])
+    setScore(0)
+  }
 
-return (
-  <div className="App">
-    { !start && <StartScreen handleClick={startGame} /> }
-    { start && loading && <Loading /> }
-    { start && !loading && 
-        <form className="Trivia-container" onSubmit={handleSubmit}> { /* form div should be moved to Trivia component? */ }
-          <Trivia formData={formData} updateState={updateState} isChecked={isChecked}/>
-            { //this should not be in the template
-              isChecked ? 
-                <div className="score-container"><h3>You scored {score}/5 correct answers</h3><button onClick={restartGame}>Play again!</button></div>  : 
-                <button>Check Answers</button>
-            }
-        </form>
-    }
-    <img src={blue} className="svg-blue" alt="blue bg" />
-    <img src={yellow} className="svg-yellow" alt="yellow bg" />
-  </div>
-);
+  console.log(formData)
+
+  return (
+    <div className="App">
+      { !start && <StartScreen handleClick={startGame} /> }
+      { start && loading && <Loading /> }
+      { start && !loading && 
+          <form className="Trivia-container" onSubmit={handleSubmit}> { /* form div should be moved to Trivia component? */ }
+            <Trivia formData={formData} updateState={updateState} isChecked={isChecked}/>
+              { //this should not be in the template
+                isChecked ? 
+                  <div className="score-container"><h3>You scored {score}/5 correct answers</h3><button onClick={restartGame}>Play again!</button></div>  : 
+                  <button>Check Answers</button>
+              }
+          </form>
+      }
+      <img src={blue} className="svg-blue" alt="blue bg" />
+      <img src={yellow} className="svg-yellow" alt="yellow bg" />
+    </div>
+  );
 }
 
 export default App;
