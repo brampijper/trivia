@@ -9,10 +9,12 @@ import yellow from './images/yellow.svg';
 
 function App() {
 
-  const [start, setStart] = useState(false)
+  const [start, setStart] = useState(false) // Too many state variables? 
   const [loading, setLoading] = useState(true)
   const [questions, setQuestions] = useState([]) 
   const [formData, setFormData] = useState([])
+  const [isChecked, setIsChecked] = useState(false)
+  const [score, setScore] = useState(0);
 
   function startGame() {
     setStart(true)
@@ -41,10 +43,9 @@ function App() {
       return { 
         id: id,
         question,
-        value: '',
+        chosenAnswer: '',
         choices: randomizeChoices,
         correctAnswer: correct_answer,
-        correct: null
       }
     })
     setFormData(questionId)
@@ -56,7 +57,7 @@ function updateState(event) {
   const value = event.target.value;
   setFormData( prevState => (
     prevState.map( item => item.id === id ? 
-      { ...item, value } : 
+      { ...item, chosenAnswer: value } : 
       item 
     ) 
   ))
@@ -67,26 +68,42 @@ function randomizeArray(arr) {
     return arr;
 }
 
-function handleSubmit(event) {
+function handleSubmit(event) { //handle errors (when user skipped questions)
   event.preventDefault();
 
-  setFormData( prevState => (
-    prevState.map( item => (
-       item.value === item.correctAnswer ? 
-        { ...item, correct: true } :
-        { ...item, correct: false} 
-    ))
-  ))
-  
+  let tempScore = 0;
+  formData.map( (item) => { //this method could be more efficient (every etc)
+    if(item.chosenAnswer === item.correctAnswer) {
+      tempScore ++;
+    }
+    return tempScore;
+  })
+  setScore(test);
+  setIsChecked(true);
 }
-  
+
+function restartGame() {
+  setLoading(true)
+  setIsChecked(false)
+  setStart(false)
+  setFormData([])
+  setScore(0)
+}
+
+console.log(formData)
+
 return (
   <div className="App">
     { !start && <StartScreen handleClick={startGame} /> }
     { start && loading && <Loading /> }
     { start && !loading && 
-        <form className="Trivia-container" onSubmit={handleSubmit}>
-          <Trivia formData={formData} updateState={updateState} />
+        <form className="Trivia-container" onSubmit={handleSubmit}> { /* form div should be moved to Trivia component? */ }
+          <Trivia formData={formData} updateState={updateState} isChecked={isChecked}/>
+            { //this should not be in the template
+              isChecked ? 
+                <div className="score-container"><h3>You scored {score}/5 correct answers</h3><button onClick={restartGame}>Play again!</button></div>  : 
+                <button>Check Answers</button>
+            }
         </form>
     }
     <img src={blue} className="svg-blue" alt="blue bg" />
