@@ -18,21 +18,21 @@ function App() {
 
   function startGame() {
     setStart(true)
-    fetchQuestions()
+    fetchQuestions() //returns a promise
+      .then(data => MapAndGiveUniqueId(data))
   }
 
-  function fetchQuestions() {
-    fetch('https://opentdb.com/api.php?amount=5')
-      .then(res => res.json())
-      .then(data => data.results)
-      .then(results => giveUniqueId(results));
+  async function fetchQuestions() {
+    const response = await fetch('https://opentdb.com/api.php?amount=5')
+    const data = await response.json()
+    return data.results
   }
 
-  function giveUniqueId(results) {
-    const questionsWithId = results.map( (result) => {
-      return { ...result, id: nanoid() }
-    })
-    setQuestions(questionsWithId);
+  function MapAndGiveUniqueId(data) {
+    const triviaWithId = data.map( item => (
+      { ...item, id: nanoid() }
+    ))
+    setQuestions(triviaWithId);
     setLoading(false)
   }
 
@@ -78,7 +78,7 @@ function handleSubmit(event) { //handle errors (when user skipped questions)
     }
     return tempScore;
   })
-  setScore(test);
+  setScore(tempScore);
   setIsChecked(true);
 }
 
