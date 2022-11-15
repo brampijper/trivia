@@ -9,7 +9,7 @@ import yellow from './images/yellow.svg';
 
 function App() {
 
-  const [start, setStart] = useState(false) // Too many state variables? 
+  const [start, setStart] = useState(false) // Too many state variables? Move some to Trivia (form)?
   const [loading, setLoading] = useState(true)
   const [questions, setQuestions] = useState([]) 
   const [formData, setFormData] = useState([])
@@ -22,7 +22,7 @@ function App() {
       .then(data => MapAndGiveUniqueId(data))
   }
 
-  async function fetchQuestions() {
+  async function fetchQuestions() { // Handle errors? No internet connection etc (status.ok)
     const response = await fetch('https://opentdb.com/api.php?amount=5')
     const data = await response.json()
     return data.results
@@ -69,13 +69,18 @@ function App() {
     ))
   }
 
-  function handleSubmit(event) { //handle errors (when user skipped questions)
+  /**
+   * handle errors (when user skipped questions) 
+   * check answers button should be greyed out, until the user answered all the questions.
+   * Handlesubmit should be moved to the trivia component (form) ? 
+   */
+  function handleSubmit(event) {
     event.preventDefault();
 
     const scoreArray = formData
       .filter( trivia => trivia.chosenAnswer === trivia.correctAnswer)
 
-    setScore(scoreArray.length);
+    setScore(scoreArray.length); // Should this be moved to the score component?
     setIsChecked(true);
   }
 
@@ -87,21 +92,19 @@ function App() {
     setScore(null)
   }
 
-  console.log(score)
-
   return (
-    <div className="App">
+    <div className="App"> { /* Make this more readable, too much logic / variables */ }
       { !start && <StartScreen handleClick={startGame} /> }
       { start && loading && <Loading /> }
       { start && !loading && 
-          <form className="Trivia-container" onSubmit={handleSubmit}> { /* form div should be moved to Trivia component? */ }
-            <Trivia formData={formData} updateState={updateState} isChecked={isChecked}/>
-              { //this should not be in the template
-                isChecked ? 
-                  <div className="score-container"><h3>You scored {score}/5 correct answers</h3><button onClick={restartGame}>Play again!</button></div>  : 
-                  <button>Check Answers</button>
-              }
-          </form>
+            <Trivia 
+              formData={formData} // too many props.
+              updateState={updateState} 
+              isChecked={isChecked}
+              onSubmit={handleSubmit}
+              score={score}
+              restartGame={restartGame}
+            />
       }
       <img src={blue} className="svg-blue" alt="blue bg" />
       <img src={yellow} className="svg-yellow" alt="yellow bg" />
