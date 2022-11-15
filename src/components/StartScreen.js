@@ -1,5 +1,6 @@
 import React from 'react';
 import './StartScreen.css';
+import Button from './Button';
 
 
 export default function StartScreen(props) {
@@ -7,9 +8,7 @@ export default function StartScreen(props) {
         <div className="StartScreen">
             <h1>Quizzical</h1>
             <p>Explore and gain knowledge by answering a few questions!</p>
-            <button onClick={props.handleClick}>
-                Start Quiz
-            </button>
+            <Button handleClick={props.handleClick} text="Start Quiz" />
         </div>
     )
 }
