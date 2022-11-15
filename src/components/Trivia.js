@@ -5,16 +5,17 @@ import Score from './Score';
 import Button from './Button';
 
 export default function Trivia(props) {
+    const { game, onSubmit, restartGame, updateState } = props;
 
-    const questions = props.formData.map( (trivia) => {
+    const questions = game.questions.map( trivia => {
         return (
             <div className="wrap" key={trivia.id}>
                 <h3 dangerouslySetInnerHTML={{__html: trivia.question}}></h3>
                 <TriviaButtons 
                     key={trivia.id}
-                    updateState={props.updateState}
+                    updateState={updateState}
                     trivia={trivia}
-                    hasValidatedForm={props.game.hasValidatedForm}
+                    hasValidatedForm={game.hasValidatedForm}
                 />
                 <hr />
             </div>
@@ -22,13 +23,13 @@ export default function Trivia(props) {
     })
 
     return ( 
-        <form className="Trivia-container" onSubmit={props.onSubmit}>
+        <form className="Trivia-container" onSubmit={onSubmit}>
             <div>
                 {questions}
             </div>
             { 
-            props.game.hasValidatedForm ? 
-                <Score score={props.game.score} restartGame={props.restartGame} /> : 
+            game.hasValidatedForm ? 
+                <Score score={game.score} restartGame={restartGame} /> : 
                 <Button text="Check Answers" />
             }
         </form>

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { nanoid } from 'nanoid'
 import './App.css';
 import Loading from './components/Loading';
@@ -9,12 +9,10 @@ import yellow from './images/yellow.svg';
 
 function App() {
 
-  const [questions, setQuestions] = useState([]) // I think I can remove Formdata and use questions state??
-  const [formData, setFormData] = useState([])
-
   const [game, setGame] = useState({
     start: false,
     loading: true,
+    questions: [],
     score: null,
     hasValidatedForm: false
   })
@@ -22,7 +20,7 @@ function App() {
   function startGame() {
     updateGameState({start: true})
     fetchQuestions() //returns a promise
-      .then(data => MapAndGiveUniqueId(data))
+      .then(data => structureTriviaData(data))
   }
 
   async function fetchQuestions() { // Handle errors? No internet connection etc (status.ok)
@@ -31,32 +29,25 @@ function App() {
     return data.results
   }
 
-  function MapAndGiveUniqueId(data) {
-    const triviaWithId = data.map( item => (
-      { ...item, id: nanoid() }
-    ))
-    setQuestions(triviaWithId);
-    updateGameState({loading: false})
-  }
-
   function updateGameState(stateKeyValue) {
     setGame( prevState => ({ ...prevState, ...stateKeyValue}) )
-  } 
+  }
 
-  useEffect( () => {
-    const setFormState = questions.map( (questionData) => {
-      const {question, incorrect_answers, correct_answer, id} = questionData;
+  function structureTriviaData(data) {
+    const trivia = data.map( item => {
+      const {question, incorrect_answers, correct_answer} = item;
       const randomizeChoices = randomizeArray([...incorrect_answers, correct_answer])
       return { 
-        id,
         question,
-        chosenAnswer: '',
         choices: randomizeChoices,
         correctAnswer: correct_answer,
+        id: nanoid(),
+        chosenAnswer: '',
       }
     })
-    setFormData(setFormState)
-  }, [questions] )
+    updateGameState({questions: trivia})
+    updateGameState({loading: false})
+  }
 
   function randomizeArray(arr) {
     arr.sort(() => Math.random() - 0.5);
@@ -67,13 +58,14 @@ function App() {
     const id = event.target.name;
     const chosenAnswer = event.target.value;
     
-    setFormData( prevState => (
-      prevState.map( trivia => ( 
+    const selectedAnswer = 
+      game.questions.map( trivia => ( 
         trivia.id === id ? 
           { ...trivia, chosenAnswer } : 
-          trivia )
-      ) 
-    ))
+          trivia 
+      ))
+    
+    updateGameState({questions: selectedAnswer})
   }
 
   /**
@@ -84,7 +76,7 @@ function App() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    const scoreArray = formData
+    const scoreArray = game.questions
       .filter( trivia => trivia.chosenAnswer === trivia.correctAnswer)
 
     updateGameState({score: scoreArray.length}) // Should this be moved to the score component?
@@ -95,10 +87,10 @@ function App() {
     setGame({
       start: false,
       loading: true,
+      questions: [],
       score: null,
       hasValidatedForm: false
     })
-    setFormData([])
   }
 
   console.log(game)
@@ -108,7 +100,6 @@ function App() {
       { game.start && game.loading && <Loading /> }
       { game.start && !game.loading && 
             <Trivia 
-              formData={formData} // too many props.
               game={game}
               updateState={updateState} 
               onSubmit={handleSubmit}
