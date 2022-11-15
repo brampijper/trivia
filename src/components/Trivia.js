@@ -14,7 +14,7 @@ export default function Trivia(props) {
                     key={trivia.id}
                     updateState={props.updateState}
                     trivia={trivia}
-                    isChecked={props.isChecked}
+                    hasValidatedForm={props.game.hasValidatedForm}
                 />
                 <hr />
             </div>
@@ -27,8 +27,8 @@ export default function Trivia(props) {
                 {questions}
             </div>
             { 
-            props.isChecked ? 
-                <Score score={props.score} restartGame={props.restartGame} /> : 
+            props.game.hasValidatedForm ? 
+                <Score score={props.game.score} restartGame={props.restartGame} /> : 
                 <Button text="Check Answers" />
             }
         </form>

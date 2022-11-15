@@ -11,7 +11,7 @@ export default function TriviaButtons (props) {
             Move to handleFormSubmit function in App.js??
             Switch statement?
         */
-        if (props.isChecked) { 
+        if (props.hasValidatedForm) { 
             if (choice === trivia.correctAnswer) {
                 if(trivia.chosenAnswer) {
                     styles = {
