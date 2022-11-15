@@ -9,15 +9,18 @@ import yellow from './images/yellow.svg';
 
 function App() {
 
-  const [start, setStart] = useState(false) // Too many state variables? Move some to Trivia (form)?
-  const [loading, setLoading] = useState(true)
-  const [questions, setQuestions] = useState([]) 
+  const [questions, setQuestions] = useState([]) // I think I can remove Formdata and use questions state??
   const [formData, setFormData] = useState([])
-  const [isChecked, setIsChecked] = useState(false)
-  const [score, setScore] = useState(null);
+
+  const [game, setGame] = useState({
+    start: false,
+    loading: true,
+    score: null,
+    hasValidatedForm: false
+  })
 
   function startGame() {
-    setStart(true)
+    updateGameState({start: true})
     fetchQuestions() //returns a promise
       .then(data => MapAndGiveUniqueId(data))
   }
@@ -33,8 +36,12 @@ function App() {
       { ...item, id: nanoid() }
     ))
     setQuestions(triviaWithId);
-    setLoading(false)
+    updateGameState({loading: false})
   }
+
+  function updateGameState(stateKeyValue) {
+    setGame( prevState => ({ ...prevState, ...stateKeyValue}) )
+  } 
 
   useEffect( () => {
     const setFormState = questions.map( (questionData) => {
@@ -80,29 +87,31 @@ function App() {
     const scoreArray = formData
       .filter( trivia => trivia.chosenAnswer === trivia.correctAnswer)
 
-    setScore(scoreArray.length); // Should this be moved to the score component?
-    setIsChecked(true);
+    updateGameState({score: scoreArray.length}) // Should this be moved to the score component?
+    updateGameState({hasValidatedForm: true})
   }
 
   function restartGame() {
-    setLoading(true)
-    setIsChecked(false)
-    setStart(false)
+    setGame({
+      start: false,
+      loading: true,
+      score: null,
+      hasValidatedForm: false
+    })
     setFormData([])
-    setScore(null)
   }
 
+  console.log(game)
   return (
     <div className="App"> { /* Make this more readable, too much logic / variables */ }
-      { !start && <StartScreen handleClick={startGame} /> }
-      { start && loading && <Loading /> }
-      { start && !loading && 
+      { !game.start && <StartScreen handleClick={startGame} /> }
+      { game.start && game.loading && <Loading /> }
+      { game.start && !game.loading && 
             <Trivia 
               formData={formData} // too many props.
+              game={game}
               updateState={updateState} 
-              isChecked={isChecked}
               onSubmit={handleSubmit}
-              score={score}
               restartGame={restartGame}
             />
       }
