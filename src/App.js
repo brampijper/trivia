@@ -40,7 +40,7 @@ function App() {
           text: `Something went wrong, ${error}`
         }
       })
-      throw new Error(`something went wrong, ${error}`)
+      throw new Error(error)
     } 
   }
 
@@ -103,16 +103,18 @@ function App() {
   }
 
   return (
-    <div className="App"> { /* Make this more readable, too much logic / variables */ }
-      { game.state.isLoading == null && <StartScreen handleClick={startGame} /> }
-      { game.state.isLoading && <Loading text={game.state.text} /> }
-      { game.state.isLoading !== null && !game.state.isLoading &&
-            <Trivia 
+    <div className="App">
+      <StartScreen 
+        handleClick={startGame} 
+        isLoading={game.state.isLoading} 
+      />
+      { game.state.isLoading 
+          ? <Loading text={game.state.text} /> 
+          : <Trivia 
               game={game}
               updateState={updateState} //change function name 
               onSubmit={handleSubmit} //handleFormSubmit?
-              restartGame={restartGame}
-            />
+              restartGame={restartGame} />
       }
       <img src={blue} className="svg-blue" alt="blue bg" />
       <img src={yellow} className="svg-yellow" alt="yellow bg" />
