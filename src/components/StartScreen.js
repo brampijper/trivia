@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './StartScreen.css';
 import Button from './Button';
 
 
 export default function StartScreen(props) {
+    if (props.isLoading !== null) {
+        return null
+    } 
     return (
         <div className="StartScreen">
             <h1>Quizzical</h1>
