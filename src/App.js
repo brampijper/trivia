@@ -9,7 +9,7 @@ import yellow from './images/yellow.svg';
 
 function App() {
 
-  const [game, setGame] = useState({
+  const gameObj = {
     start: false,
     loading: {
       isLoading: true,
@@ -18,7 +18,9 @@ function App() {
     questions: [],
     score: null,
     hasValidatedForm: false
-  })
+  }
+
+  const [game, setGame] = useState(gameObj)
 
   async function startGame() {
     updateGameState({start: true})
@@ -98,16 +100,7 @@ function App() {
   }
 
   function restartGame() {
-    setGame({ //repeating this code block twice? make const variable?
-      start: false,
-      loading: {
-        isLoading: true,
-        text: "generating questions.."
-      },
-      questions: [],
-      score: null,
-      hasValidatedForm: false
-    })
+    setGame(gameObj)
   }
 
   return (
