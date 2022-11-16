@@ -6,6 +6,11 @@ import Button from './Button';
 
 export default function Trivia(props) {
     const { game, onSubmit, restartGame, updateState } = props;
+    
+    //preventing it from rendering when the game is loading. or null
+    if (game.state.isLoading === null || game.state.isLoading ) { 
+        return null
+    } 
 
     const questions = game.questions.map( trivia => {
         return (
