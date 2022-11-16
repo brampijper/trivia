@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default function Loading() {
+export default function Loading(props) {
     return (
-        <div>generating questions...</div>
+        <h3>{props.text}</h3>
     )
 }
