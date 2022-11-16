@@ -10,7 +10,7 @@ import yellow from './images/yellow.svg';
 function App() {
 
   const gameObj = {
-    loading: {
+    state: {
       isLoading: null,
       text: ""
     },
@@ -22,7 +22,7 @@ function App() {
   const [game, setGame] = useState(gameObj)
 
   async function startGame() {
-    updateGameState({loading: {isLoading: true, text: 'generating questions..' } })
+    updateGameState({state: {isLoading: true, text: 'generating questions..' } })
     await fetchTriviaData()
       .then( data => structureTriviaData(data));
   }
@@ -35,7 +35,7 @@ function App() {
     } 
     catch(error) {
       updateGameState({
-        loading: {
+        state: {
           isLoading: true,
           text: `Something went wrong, ${error}`
         }
@@ -61,7 +61,7 @@ function App() {
       }
     })
     updateGameState({questions: trivia})
-    updateGameState({loading: { isLoading: false, text: ''}})
+    updateGameState({state: { isLoading: false, text: ''}})
   }
 
   function randomizeArray(arr) {
@@ -104,9 +104,9 @@ function App() {
 
   return (
     <div className="App"> { /* Make this more readable, too much logic / variables */ }
-      { game.loading.isLoading === null && <StartScreen handleClick={startGame} /> }
-      { game.loading.isLoading && <Loading text={game.loading.text} /> }
-      { game.loading.isLoading !== null && !game.loading.isLoading &&
+      { game.state.isLoading == null && <StartScreen handleClick={startGame} /> }
+      { game.state.isLoading && <Loading text={game.state.text} /> }
+      { game.state.isLoading !== null && !game.state.isLoading &&
             <Trivia 
               game={game}
               updateState={updateState} //change function name 
