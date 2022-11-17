@@ -1,6 +1,5 @@
 
 button {
-    margin-top: 1rem;
     width: auto;
     min-width: 175px;
     max-width: 220px;
@@ -12,4 +11,12 @@ button {
     cursor:pointer;
     font-size: 1rem;
     align-self:center;
-  }
+}
+
+button:disabled,
+button[disabled]{
+  background: #4D5B9E;
+  opacity: 0.4;
+  color: white;
+  cursor: initial;
+}
