@@ -21,4 +21,5 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 Builds the app for production to the `build` folder.\
 
 ### `npm run deploy`
-Deploys current verson on Github pages. 
+Deploys current verson on Github pages.
+(You have to `rm -rf node_modules/.cache/gh-pages` before running deploy)
