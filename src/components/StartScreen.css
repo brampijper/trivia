@@ -2,10 +2,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 2rem;
+    justify-content: center;
 }
 
 .StartScreen h1 {
-    margin-bottom: 0.1rem;
+    margin: 0;
     font-weight: 700;
     font-size: 31.25px;
     line-height: 37px;
@@ -13,6 +15,7 @@
 }
 
 .StartScreen p {
+    margin:0;
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
