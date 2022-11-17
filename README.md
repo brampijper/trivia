@@ -1,6 +1,6 @@
 # Trivia Questions App
 This project is part of my deepdive in React.js.
-Built to gain more knowledge:
+Built to gain more knowledge in:
 - Thinking in react
 - Composability
 - State and data structures.
