@@ -29,7 +29,7 @@ export default function Trivia(props) {
 
     return ( 
         <form className="Trivia-container" onSubmit={handleFormSubmit}>
-            <div>
+            <div className="trivia-wrap">
                 {questions}
             </div>
             { game.hasValidatedForm 

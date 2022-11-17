@@ -1,17 +1,25 @@
 .Trivia-container {
     z-index:2;
-    padding:4rem;
+    padding:2rem;
     display: flex;
     flex-direction: column;
     align-items:center;
     gap: 1.8rem;
+    max-width: 700px;
+}
+
+.trivia-wrap, .wrap {
+    display:flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 h3 {
     font-weight: 700;
     font-size: 1.1rem;
     line-height: 19px;    
-    color: #293264;   
+    color: #293264; 
+    margin:0;  
 }
 
 .trivia-buttons {
@@ -19,11 +27,11 @@ h3 {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: 1.3rem;
 }
 
 hr {
     opacity: .5;
+    width: 100%;
 }
 
 /* Styling for input="radio" to look like regual buttons */
