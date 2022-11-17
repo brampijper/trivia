@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { nanoid } from 'nanoid'
 import './App.css';
 import Loading from './components/Loading';
@@ -16,6 +16,7 @@ function App() {
     },
     questions: [],
     score: null,
+    hasAnsweredQuestions: false,
     hasValidatedForm: false
   }
 
@@ -73,8 +74,7 @@ function App() {
     const id = event.target.name;
     const chosenAnswer = event.target.value;
     
-    const selectedAnswer = 
-      game.questions.map( trivia => (  //not very readable. 
+    const selectedAnswer = game.questions.map( trivia => (  //not very readable. 
         trivia.id === id ? 
           { ...trivia, chosenAnswer } : 
           trivia 
@@ -83,19 +83,25 @@ function App() {
     updateGameState({questions: selectedAnswer})
   }
 
-  /**
-   * handle errors (when user skipped questions) 
-   * check answers button should be greyed out, until the user answered all the questions.
-   * Handlesubmit should be moved to the trivia component (form) ? 
-   */
-  function handleSubmit(event) { //function name is not super clear.
+  // check if the user answered all questions before validating is possible.
+  useEffect( () => {
+    const hasAnsweredQuestions = game.questions.every( question => question.chosenAnswer)
+    updateGameState({hasAnsweredQuestions})
+  }, [game.questions])
+
+  
+  function handleSubmit(event) {
     event.preventDefault();
 
+    updateGameState(calculateScore())
+    updateGameState({hasValidatedForm: true})
+  }
+
+  function calculateScore() {
     const scoreArray = game.questions
       .filter( trivia => trivia.chosenAnswer === trivia.correctAnswer)
-
-    updateGameState({score: scoreArray.length}) // Should this be moved to the score component?
-    updateGameState({hasValidatedForm: true})
+    const score = scoreArray.length;
+    return { score }
   }
 
   function restartGame() {

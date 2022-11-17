@@ -7,7 +7,7 @@ import Button from './Button';
 export default function Trivia(props) {
     const { game, onSubmit, restartGame, updateState } = props;
     
-    //preventing it from rendering when the game is loading. or null
+    //preventing it from rendering when the game is loading / or null
     if (game.state.isLoading === null || game.state.isLoading ) { 
         return null
     } 
@@ -32,10 +32,12 @@ export default function Trivia(props) {
             <div>
                 {questions}
             </div>
-            { 
-            game.hasValidatedForm ? 
-                <Score score={game.score} restartGame={restartGame} /> : 
-                <Button text="Check Answers" />
+            { game.hasValidatedForm 
+                ? <Score score={game.score} restartGame={restartGame} /> 
+                : <Button 
+                    text="Check Answers"
+                    disabled={!game.hasAnsweredQuestions}
+                    />
             }
         </form>
     )
