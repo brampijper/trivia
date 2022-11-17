@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/trivia/static/css/main.efd21bec.css",
-    "main.js": "/trivia/static/js/main.055f4b72.js",
+    "main.css": "/trivia/static/css/main.ccbf4751.css",
+    "main.js": "/trivia/static/js/main.288e3cdb.js",
     "static/js/787.dddbe7b4.chunk.js": "/trivia/static/js/787.dddbe7b4.chunk.js",
     "index.html": "/trivia/index.html",
     "static/media/blue.svg": "/trivia/static/media/blue.c131cf13d23571d0c7e48fb47c739f0d.svg",
     "static/media/yellow.svg": "/trivia/static/media/yellow.7ada827b9a9cea50494c5e2bab72a62e.svg",
-    "main.efd21bec.css.map": "/trivia/static/css/main.efd21bec.css.map",
-    "main.055f4b72.js.map": "/trivia/static/js/main.055f4b72.js.map",
+    "main.ccbf4751.css.map": "/trivia/static/css/main.ccbf4751.css.map",
+    "main.288e3cdb.js.map": "/trivia/static/js/main.288e3cdb.js.map",
     "787.dddbe7b4.chunk.js.map": "/trivia/static/js/787.dddbe7b4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.efd21bec.css",
-    "static/js/main.055f4b72.js"
+    "static/css/main.ccbf4751.css",
+    "static/js/main.288e3cdb.js"
   ]
 }
