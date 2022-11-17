@@ -70,15 +70,17 @@ function App() {
     return arr;
   }
 
-  function handleInputChange(event) { // handle selectedAnswers state
+  function handleInputChange(event) { // handle selectedAnswers state - trivia buttons
     const id = event.target.name;
     const chosenAnswer = event.target.value;
     
-    const selectedAnswer = game.questions.map( trivia => (  //not very readable. 
-        trivia.id === id ? 
-          { ...trivia, chosenAnswer } : 
-          trivia 
-      ))
+    const selectedAnswer = game.questions
+      .map( question => 
+        ( question.id === id 
+            ? { ...question, chosenAnswer } 
+            : question 
+        )
+      )
     
     updateGameState({questions: selectedAnswer})
   }
