@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import './StartScreen.css';
 import Button from './Button';
 
