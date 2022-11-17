@@ -45,7 +45,7 @@ export default function TriviaButtons (props) {
     })
 
     return (
-        <div className="trivia-buttons" onChange={props.updateState}>
+        <div className="trivia-buttons" onChange={props.handleInputChange}>
             { buttons }
         </div>
     )

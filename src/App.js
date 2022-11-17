@@ -70,7 +70,7 @@ function App() {
     return arr;
   }
 
-  function updateState(event) { // function name is not super clear
+  function handleInputChange(event) { // handle selectedAnswers state
     const id = event.target.name;
     const chosenAnswer = event.target.value;
     
@@ -83,14 +83,14 @@ function App() {
     updateGameState({questions: selectedAnswer})
   }
 
-  // check if the user answered all questions before validating is possible.
+  // check if the user answered all questions before showing answers.
   useEffect( () => {
     const hasAnsweredQuestions = game.questions.every( question => question.chosenAnswer)
     updateGameState({hasAnsweredQuestions})
   }, [game.questions])
 
-  
-  function handleSubmit(event) {
+
+  function handleFormSubmit(event) {
     event.preventDefault();
 
     updateGameState(calculateScore())
@@ -118,8 +118,8 @@ function App() {
           ? <Loading text={game.state.text} /> 
           : <Trivia 
               game={game}
-              updateState={updateState} //change function name 
-              onSubmit={handleSubmit} //handleFormSubmit?
+              handleInputChange={handleInputChange} 
+              handleFormSubmit={handleFormSubmit}
               restartGame={restartGame} />
       }
       <img src={blue} className="svg-blue" alt="blue bg" />

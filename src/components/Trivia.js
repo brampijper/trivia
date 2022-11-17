@@ -5,7 +5,7 @@ import Score from './Score';
 import Button from './Button';
 
 export default function Trivia(props) {
-    const { game, onSubmit, restartGame, updateState } = props;
+    const { game, handleFormSubmit, restartGame, handleInputChange } = props;
     
     //preventing it from rendering when the game is loading / or null
     if (game.state.isLoading === null || game.state.isLoading ) { 
@@ -18,7 +18,7 @@ export default function Trivia(props) {
                 <h3 dangerouslySetInnerHTML={{__html: trivia.question}}></h3>
                 <TriviaButtons 
                     key={trivia.id}
-                    updateState={updateState}
+                    handleInputChange={handleInputChange}
                     trivia={trivia}
                     hasValidatedForm={game.hasValidatedForm}
                 />
@@ -28,7 +28,7 @@ export default function Trivia(props) {
     })
 
     return ( 
-        <form className="Trivia-container" onSubmit={onSubmit}>
+        <form className="Trivia-container" onSubmit={handleFormSubmit}>
             <div>
                 {questions}
             </div>
