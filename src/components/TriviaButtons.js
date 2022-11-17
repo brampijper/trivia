@@ -4,31 +4,23 @@ export default function TriviaButtons (props) {
     const { trivia } = props
 
     const buttons = trivia.choices.map( (choice) => {
+
+        const wrongStyles = { backgroundColor: '#F8BCBC', opacity: 0.5, border: 'unset' };
+        const correctStyles = { backgroundColor: '#94D7A2', border: 'unset' };
+        const neutralStyles = { opacity: 0.4 };
+
         let styles = {};
 
-        /* 
-            Improve this block of code
-            Move to handleFormSubmit function in App.js??
-            Switch statement?
-        */
         if (props.hasValidatedForm) { 
-            if (choice === trivia.correctAnswer) {
-                if(trivia.chosenAnswer) {
-                    styles = {
-                        backgroundColor: '#94D7A2',
-                        border: 'unset'
-                    }
-                }
-            } else if (choice === trivia.chosenAnswer) {
-                styles = {
-                    backgroundColor: '#F8BCBC',
-                    opacity: 0.5,
-                    border: 'unset'
-                }
-            } else {
-                styles = {
-                    opacity: 0.4
-                }
+            switch(choice) {
+                case trivia.correctAnswer:
+                    styles = { ...correctStyles }
+                break;
+                case trivia.chosenAnswer:
+                    styles = { ...wrongStyles }
+                break;
+                default:
+                    styles = { ...neutralStyles }
             }
         }
  
